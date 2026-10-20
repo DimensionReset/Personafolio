@@ -47,6 +47,21 @@
             }
 
             /* === ANIMATIONS === */
+
+            /* text growth animations*/
+            ul li span {
+                transition:
+                    transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            ul li:has(span.text-black) {
+                z-index: 1 !important;
+            }
+
+            ul li span.text-black {
+                transform: scale(1.2);
+            }
+
             #optionsList span { /* for the wavy effect on text */
                 display: inline-block;
                 filter: url(#wavy);
@@ -88,6 +103,29 @@
     </head>
 
     <body>
+        <!-- AUDIO FILES -->
+            <!-- Music -->
+            <audio id="colorYourNightMUS" loop onloadeddata="this.volume = 0.25;">
+                <source src="sound/music/ColorYourNight.mp3" type="audio/mp3" />
+            </audio>
+
+            <!-- SFX -->
+            <audio id="uiSliderSFX" onloadeddata="this.volume = 0.25;">
+                <source src="sound/sfx/ui_slider.wav" type="audio/wav" />
+            </audio>
+
+            <audio id="launchSFX" onloadeddata="this.volume = 0.25;">
+                <source src="sound/sfx/launch_game.wav" type="audio/wav" />
+            </audio>
+
+            <audio id="activationSFX" onloadeddata="this.volume = 0.25;">
+                <source src="sound/sfx/activation.wav" type="audio/wav" />
+            </audio>
+
+            <audio id="hideSFX" onloadeddata="this.volume = 0.25;">
+                <source src="sound/sfx/hide.wav" type="audio/wav" />
+            </audio>
+
         <!-- Wave Filter Definition -->
         <svg width="100%" height="100%" style="display: none">
             <!-- https://dev.to/codingdudecom/css-wavy-text-generator-3o2o -->
@@ -122,7 +160,7 @@
             class="relative h-screen w-full overflow-hidden flex items-center justify-center select-none"
         >
             <video
-                id="bgVid"
+                id="mainBgVid"
                 autoplay
                 muted
                 loop
@@ -136,7 +174,7 @@
             <!--[=== LOADING SCREEN ===]-->
             <div
                 id="loadingMenu"
-                class="fixed z-2 text-left w-full flex flex-col"
+                class="fixed z-5 text-left w-full flex flex-col"
             >
                 <div class="w-full flex flex-row">
                     <div class="w-10 self-stretch"></div>
@@ -155,10 +193,31 @@
                     <div>
                         <h1>PRESS<br />ANY<br />BUTTON</h1>
                     </div>
+                </div>
+            </div>
 
-                    <audio id="launchSFX">
-                        <source src="sound/sfx/launch_game.wav" type="audio/wav" />
-                    </audio>
+            <!--[=== ALL PAGE SCREENS ===]-->
+            <div
+                id="sceneContainer"
+                class="fixed w-full h-full"
+            >
+                <div
+                    id="creatorMenu"
+                    class="z-4 flex flex-row hidden fixed text-left text-[#83f2f9] text-7xl italic font- w-full h-full"
+                >
+                    <video
+                        id="sceneBgVid"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="absolute inset-0 w-full h-full object-cover"
+                    >
+                        <source src="videos/skills-bg.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+                    WORKING YIPPEE
                 </div>
             </div>
 
@@ -203,13 +262,31 @@
             # === CONFIG ===
             BASE_UNIT_WIDTH = 100
 
-
             # === HELPER FUNCTIONS ===
+
+            def playSound(name, vol=None):
+                snd = document.getElementById(name)
+                if not snd:
+                    return
+                    
+                snd_clone = snd.cloneNode(True)
+                if vol:
+                    snd_clone.volume = vol
+
+                def on_ended(event):
+                    snd_clone.remove()
+                    ended_proxy.destroy()
+                    
+                ended_proxy = create_proxy(on_ended)
+                snd_clone.addEventListener("ended", ended_proxy)
+                
+                snd_clone.play()
 
             # Cursor SVG Container
             svg_ns = "http://www.w3.org/2000/svg"
             svg_container = document.createElement("div")
             svg_container.id = "global-cursor-container"
+            svg_container.classList.add("hidden")
             document.body.appendChild(svg_container)
 
             # Helper to create template triangle SVGs (used for selection cursors)
@@ -239,8 +316,64 @@
             # CURSOR HANDLING
             current_selected_span = None
 
+            # Helper to hide all scenes and load the options menu
+            def load_options():
+                options_menu = document.getElementById("optionsMenu")
+                all_scenes = document.querySelectorAll('div#sceneContainer div[id$="Menu"]')
+
+                for scene in all_scenes:
+                    scene.classList.add("hidden")
+
+                if options_menu:
+                    options_menu.classList.remove("hidden")
+                    svg_container.classList.remove("hidden")
+
+            # Event logic for when ESC key is pressed
+            escape_press_proxy = None # for event cleaning
+            
+            def exit_scene(event):
+                global escape_press_proxy
+
+                if event.code == "Escape":
+                    playSound("hideSFX")
+                    load_options()
+                    if escape_press_proxy:
+                        window.removeEventListener("keydown", escape_press_proxy)
+                        escape_press_proxy.destroy()
+                        escape_press_proxy = None
+
+            # Helper to load different scenes by removing their "hidden" class
+            def load_scene(name):
+                global escape_press_proxy
+
+                name = str(name).lower()
+                sceneContainer = document.getElementById(f"{name}Menu")
+
+                if not sceneContainer:
+                    return
+
+                options_menu = document.getElementById("optionsMenu")
+                all_scenes = document.querySelectorAll('div#sceneContainer div[id$="Menu"]')
+
+                if options_menu:
+                    options_menu.classList.add("hidden")
+                    svg_container.classList.add("hidden")
+
+                for scene in all_scenes:
+                    scene.classList.add("hidden")
+
+                sceneContainer.classList.remove("hidden")
+
+                if escape_press_proxy:
+                    window.removeEventListener("keydown", escape_press_proxy)
+                    escape_press_proxy.destroy()
+
+                escape_press_proxy = create_proxy(exit_scene)
+                window.addEventListener("keydown", escape_press_proxy)
+
             # Event logic for when <li> is clicked
             def option_select(event):
+                svg_container.className = ""
                 global current_selected_span
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
                 clicked_item_text = event.target.closest("span")
@@ -249,11 +382,17 @@
                     return
 
                 if last_selected_text:
+                    if clicked_item_text == last_selected_text:
+                        playSound("activationSFX")
+                        load_scene(clicked_item_text.innerHTML)
+                        return
+
                     last_selected_text.classList.remove("text-black")
 
                 clicked_item_text.classList.add("text-black")
 
                 current_selected_span = clicked_item_text
+                playSound("uiSliderSFX")
                 update_cursor_position()
 
             # Helper to update cursor pos after event and option select
@@ -283,24 +422,22 @@
             window.addEventListener("resize", resize_proxy)
 
             # Event logic for exiting loading screen on keypress
-            def handle_keypress(event):
-                # audio
-                launch_sfx = document.getElementById("launchSFX")
-
+            def handle_loading_exit(event):
                 # menus
-                bg_vid = document.getElementById("bgVid")
+                main_bg_vid = document.getElementById("mainBgVid")
                 loading_menu = document.getElementById("loadingMenu")
                 options_menu = document.getElementById("optionsMenu")
 
                 # remove prev scene here
                 if loading_menu:
                     loading_menu.classList.add("hidden")
-                    launch_sfx.play()
+                    playSound("launchSFX")
                     
                 # load scene
                 if options_menu:
+                    playSound("colorYourNightMUS")
                     options_menu.classList.remove("hidden")
-                    bg_vid.src = "videos/main-bg.mp4"
+                    main_bg_vid.src = "videos/main-bg.mp4"
 
                     list_items = document.querySelectorAll("#optionsList li")
                     depth = 1
@@ -329,8 +466,9 @@
                 window.removeEventListener("keydown", keypress_proxy)
                 keypress_proxy.destroy()
 
+                
             # check for keypress
-            keypress_proxy = create_proxy(handle_keypress)
+            keypress_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", keypress_proxy)
         </script>
     </body>
