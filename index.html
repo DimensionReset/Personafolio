@@ -55,7 +55,7 @@
             }
 
             ul li:has(span.text-black) {
-                z-index: 1 !important;
+                z-index: 3 !important;
             }
 
             ul li span.text-black {
@@ -217,7 +217,7 @@
                         Your browser does not support the video tag.
                     </video>
 
-                    WORKING YIPPEE
+                    <h1></h1>
                 </div>
             </div>
 
@@ -466,7 +466,7 @@
                 window.removeEventListener("keydown", keypress_proxy)
                 keypress_proxy.destroy()
 
-                
+
             # check for keypress
             keypress_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", keypress_proxy)
