@@ -47,12 +47,12 @@
             }
 
             /* === ANIMATIONS === */
-            #optionsList span {
+            #optionsList span { /* for the wavy effect on text */
                 display: inline-block;
                 filter: url(#wavy);
             }
 
-            .cursor-triangle-svg {
+            .cursor-triangle-svg { /* for the transition between selections */
                 position: fixed !important;
                 transition:
                     transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
@@ -60,6 +60,23 @@
                     left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
                 transform-origin: left center;
                 pointer-events: none;
+            }
+
+            @keyframes heartbeat { /* for the red triangle svg's heartbeat effect thingy */
+                0% {
+                    scale: 1;
+                }
+                15% {
+                    scale: 1.015;
+                }
+                60% {
+                    scale: 1;
+                }
+            }
+
+            .animate-heartbeat { /* keyframes for above */
+                animation: heartbeat 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                transform-origin: center left;
             }
         </style>
 
@@ -85,14 +102,14 @@
                         baseFrequency="0 0.0645034"
                     ></feTurbulence>
                     <feDisplacementMap
-                        scale="3.3"
+                        scale="5"
                         in="SourceGraphic"
                     ></feDisplacementMap>
                 </filter>
                 <animate
                     xlink:href="#wave-animation"
                     attributeName="baseFrequency"
-                    dur="3s"
+                    dur="1s"
                     keyTimes="0;0.5;1"
                     values="0.0 0.04;0.0 0.07;0.0 0.04"
                     repeatCount="indefinite"
@@ -124,27 +141,31 @@
                 <div class="w-full flex flex-row">
                     <div class="w-10 self-stretch"></div>
                     <p
-                        class="font-semibold text-xl text-white [text-stroke:0] [-webkit-text-stroke:0]"
+                        class="font-semibold text-xl lg:text-2xl text-white"
                     >
                         ICT Portfolio
                     </p>
                 </div>
 
                 <div
-                    class="w-full flex flex-row text-black/7.5 font-semibold [text-stroke:0.01rem_white] [-webkit-text-stroke:0.01rem_white] text-8xl"
+                    class="w-full flex flex-row text-black/7.5 font-semibold [text-stroke:0.04rem_white] [-webkit-text-stroke:0.04rem_white] text-8xl lg:text-9xl"
                     id="loadingMenu"
                 >
                     <div class="bg-blue-800 w-10 self-stretch"></div>
                     <div>
                         <h1>PRESS<br />ANY<br />BUTTON</h1>
                     </div>
+
+                    <audio id="launchSFX">
+                        <source src="sound/sfx/launch_game.wav" type="audio/wav" />
+                    </audio>
                 </div>
             </div>
 
             <!--[=== MAIN MENU SCREEN ===]-->
             <div
                 id="optionsMenu"
-                class="flex flex-row hidden fixed z-1 text-left text-[#83f2f9] text-5xl italic font-bold"
+                class="flex flex-row hidden fixed z-1 text-left text-[#83f2f9] text-7xl italic font-bold"
             >
                 <div class="w-10 self-stretch"></div>
 
@@ -201,7 +222,7 @@
 
                 poly = document.createElementNS(svg_ns, "polygon")
                 poly.setAttribute("id", poly_id)
-                poly.setAttribute("points", f"{BASE_UNIT_WIDTH + x_offset},{0 + y_offset} {BASE_UNIT_WIDTH + x_offset},{40 + y_offset} 0,{45 - y_offset}")
+                poly.setAttribute("points", f"{BASE_UNIT_WIDTH + x_offset},{-20 + y_offset} {BASE_UNIT_WIDTH + x_offset},{60 + y_offset} 0,{105 - y_offset}")
                 poly.setAttribute("fill", fill_color)
 
                 svg.appendChild(poly)
@@ -211,7 +232,7 @@
 
             # cursor triangle set-up
             y_rand = random.uniform(-3, 7)
-            svg_front = create_base_svg("triangleFront", "rgb(255, 0, 0)", x_offset=4, y_offset=y_rand) # matches back half
+            svg_front = create_base_svg("triangleFront", "rgb(255, 0, 0)", x_offset=2.5, y_offset=y_rand, extra_class="animate-heartbeat") # matches back half
             svg_red = create_base_svg("triangleRed", "rgb(255, 0, 0)", extra_class="z-1") # makes text red
             svg_back = create_base_svg("triangleBack", "rgb(255, 255, 255)", extra_class="-z-1") # matches front half
 
@@ -263,6 +284,9 @@
 
             # Event logic for exiting loading screen on keypress
             def handle_keypress(event):
+                # audio
+                launch_sfx = document.getElementById("launchSFX")
+
                 # menus
                 bg_vid = document.getElementById("bgVid")
                 loading_menu = document.getElementById("loadingMenu")
@@ -271,7 +295,8 @@
                 # remove prev scene here
                 if loading_menu:
                     loading_menu.classList.add("hidden")
-
+                    launch_sfx.play()
+                    
                 # load scene
                 if options_menu:
                     options_menu.classList.remove("hidden")
@@ -281,7 +306,7 @@
                     depth = 1
 
                     for item in list_items:
-                        random_offset = random.uniform(-5, 0)
+                        random_offset = random.uniform(-12, -9)
 
                         if depth == 1:
                             item.classList.add("z-3")
