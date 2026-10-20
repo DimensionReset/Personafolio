@@ -268,7 +268,7 @@
                         Your browser does not support the video tag.
                     </video>
 
-                    <!-- Characters -->
+                    <!-- Character List -->
                     <div class="w-1/2 z-5 h-full flex flex-col justify-center">
                         <div
                             class="bg-[#afb3b6] self-stretch h-1/12 w-2/7 absolute translate-x-[18%] -translate-y-[9%] [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"
@@ -285,6 +285,7 @@
                             />
                         </div>
 
+                        <!-- Text Information -->
                         <div
                             class="bg-white self-stretch h-1/12 w-2/3 flex flex-row justify-center items-center relative z-10 [clip-path:polygon(25%_0%,_100%_0,_98%_100%,_25%_100%,_20%_40%)]"
                         >
@@ -478,15 +479,21 @@
                 global current_selected_span
 
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
-                current_selected_span = document.querySelector('#optionsList > li > span')
+                current_selected_span = document.querySelector("#optionsList > li > span")
 
                 if last_selected_text:
                     current_li = last_selected_text.closest("li")
 
                     if event.code == "KeyW" or event.code == "ArrowUp":
-                        next_li = current_li.previousElementSibling
+                        if not current_li.previousElementSibling:
+                            next_li = document.querySelector("#optionsList > li:last-child")
+                        else:
+                            next_li = current_li.previousElementSibling
                     elif event.code == "KeyS" or event.code == "ArrowDown":
-                        next_li = current_li.nextElementSibling
+                        if not current_li.nextElementSibling:
+                            next_li = document.querySelector("#optionsList > li")
+                        else:
+                            next_li = current_li.nextElementSibling
                     elif event.code == "Space":
                         playSound("activationSFX")
                         load_scene(last_selected_text.innerHTML)
@@ -500,7 +507,7 @@
                             last_selected_text.classList.remove("text-black")
                             current_selected_span = target_span
                     else:
-                        current_selected_span = last_selected_text
+                        current_selected_span = last_selected_text.closest("span")
 
                 if current_selected_span:
                     current_selected_span.classList.add("text-black")
