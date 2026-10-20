@@ -373,13 +373,13 @@
                     options_menu.classList.remove("hidden")
                     svg_container.classList.remove("hidden")
 
-            # Event logic for when ESC key is pressed
+            # Event logic for when Backspace key is pressed
             escape_press_proxy = None # for event cleaning
             
             def exit_scene(event):
                 global escape_press_proxy
 
-                if event.code == "Escape":
+                if event.code == "Backspace" or event.code == "KeyC":
                     playSound("hideSFX")
                     load_options()
                     if escape_press_proxy:
@@ -416,8 +416,49 @@
                 escape_press_proxy = create_proxy(exit_scene)
                 window.addEventListener("keydown", escape_press_proxy)
 
+            # Event logic for when cycling through <li> with arrows or WASD
+            def option_select_arrow(event):
+                if document.getElementById("optionsMenu").classList.contains("hidden"):
+                    return
+
+                svg_container.className = ""
+                global current_selected_span
+                
+                last_selected_text = document.querySelector("#optionsList li span.text-black")
+                current_selected_span = document.querySelector('#optionsList > li > span')
+
+                if last_selected_text:
+                    current_li = last_selected_text.closest("li")
+                    
+                    if event.code == "KeyW" or event.code == "ArrowUp":
+                        next_li = current_li.previousElementSibling
+                    elif event.code == "KeyS" or event.code == "ArrowDown":
+                        next_li = current_li.nextElementSibling
+                    elif event.code == "Space":
+                        playSound("activationSFX")
+                        load_scene(last_selected_text.innerHTML)
+                        return
+                    else:
+                        return
+
+                    if next_li:
+                        target_span = next_li.querySelector("span")
+                        if target_span:
+                            last_selected_text.classList.remove("text-black")
+                            current_selected_span = target_span
+                    else:
+                        current_selected_span = last_selected_text
+
+                if current_selected_span:
+                    current_selected_span.classList.add("text-black")
+                    playSound("uiSliderSFX")
+                    update_cursor_position()
+
             # Event logic for when <li> is clicked
-            def option_select(event):
+            def option_select_mouse(event):
+                if document.getElementById("optionsMenu").classList.contains("hidden"):
+                    return
+
                 svg_container.className = ""
                 global current_selected_span
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
@@ -501,20 +542,23 @@
                         depth += 1
 
                         # check for item click for cursor shi
-                        click_proxy = create_proxy(option_select)
+                        click_proxy = create_proxy(option_select_mouse)
                         item.addEventListener("click", click_proxy)
 
                         item.classList.add(f"-my-{(random_offset/10)*-1}", "cursor-pointer", "inline-block", "relative")
                         item.style.transform = f"rotate({random_offset}deg)"
 
                 # event cleanup
-                window.removeEventListener("keydown", keypress_proxy)
-                keypress_proxy.destroy()
-
+                window.removeEventListener("keydown", loading_proxy)
+                loading_proxy.destroy()
 
             # check for keypress
-            keypress_proxy = create_proxy(handle_loading_exit)
-            window.addEventListener("keydown", keypress_proxy)
+            arrow_proxy = create_proxy(option_select_arrow)
+            window.addEventListener("keydown", arrow_proxy)
+            
+            # check for keypress also
+            loading_proxy = create_proxy(handle_loading_exit)
+            window.addEventListener("keydown", loading_proxy)
         </script>
     </body>
 </html>
