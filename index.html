@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>PERSONA</title>
 
-        <link rel="icon" type="image/png" href="images/favicon.png">
+        <link rel="icon" type="image/png" href="images/favicon.png" />
 
         <style>
             /* === CUSTOM FONTS ===*/
@@ -77,7 +77,6 @@
                 font-display: swap;
             }
 
-
             /* === MAIN ===*/
             body {
                 font-family:
@@ -97,8 +96,7 @@
 
             /* text growth animations*/
             ul li span {
-                transition:
-                    transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+                transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
             }
 
             ul li:has(span.text-black) {
@@ -109,12 +107,14 @@
                 transform: scale(1.2);
             }
 
-            #optionsList span { /* for the wavy effect on text */
+            #optionsList span {
+                /* for the wavy effect on text */
                 display: inline-block;
                 filter: url(#wavy);
             }
 
-            .cursor-triangle-svg { /* for the transition between selections */
+            .cursor-triangle-svg {
+                /* for the transition between selections */
                 position: fixed !important;
                 transition:
                     transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
@@ -124,7 +124,8 @@
                 pointer-events: none;
             }
 
-            @keyframes heartbeat { /* for the red triangle svg's heartbeat effect thingy */
+            @keyframes heartbeat {
+                /* for the red triangle svg's heartbeat effect thingy */
                 0% {
                     scale: 1;
                 }
@@ -136,7 +137,8 @@
                 }
             }
 
-            .animate-heartbeat { /* keyframes for above */
+            .animate-heartbeat {
+                /* keyframes for above */
                 animation: heartbeat 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                 transform-origin: center left;
             }
@@ -151,33 +153,33 @@
 
     <body>
         <!-- AUDIO FILES -->
-            <!-- Music -->
-            <audio id="colorYourNightMUS" loop onloadeddata="this.volume = 0.25;">
-                <source src="sound/music/ColorYourNight.mp3" type="audio/mp3" />
-            </audio>
+        <!-- Music -->
+        <audio id="colorYourNightMUS" loop onloadeddata="this.volume = 0.25">
+            <source src="sound/music/ColorYourNight.mp3" type="audio/mp3" />
+        </audio>
 
-            <!-- SFX -->
-            <audio id="uiSliderSFX" onloadeddata="this.volume = 0.25;">
-                <source src="sound/sfx/ui_slider.wav" type="audio/wav" />
-            </audio>
+        <!-- SFX -->
+        <audio id="uiSliderSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/ui_slider.wav" type="audio/wav" />
+        </audio>
 
-            <audio id="launchSFX" onloadeddata="this.volume = 0.25;">
-                <source src="sound/sfx/launch_game.wav" type="audio/wav" />
-            </audio>
+        <audio id="launchSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/launch_game.wav" type="audio/wav" />
+        </audio>
 
-            <audio id="activationSFX" onloadeddata="this.volume = 0.25;">
-                <source src="sound/sfx/activation.wav" type="audio/wav" />
-            </audio>
+        <audio id="activationSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/activation.wav" type="audio/wav" />
+        </audio>
 
-            <audio id="hideSFX" onloadeddata="this.volume = 0.25;">
-                <source src="sound/sfx/hide.wav" type="audio/wav" />
-            </audio>
+        <audio id="hideSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/hide.wav" type="audio/wav" />
+        </audio>
 
         <!-- Wave Filter Definition -->
         <svg width="100%" height="100%" style="display: none">
             <!-- https://dev.to/codingdudecom/css-wavy-text-generator-3o2o -->
             <!-- my GOAT <3 -->
-            
+
             <defs>
                 <filter id="wavy" filterUnits="userSpaceOnUse" x="0" y="0">
                     <feTurbulence
@@ -225,9 +227,7 @@
             >
                 <div class="w-full flex flex-row">
                     <div class="w-10 self-stretch"></div>
-                    <p
-                        class="font-semibold text-xl lg:text-2xl text-white"
-                    >
+                    <p class="font-semibold text-xl lg:text-2xl text-white">
                         ICT Portfolio
                     </p>
                 </div>
@@ -244,11 +244,7 @@
             </div>
 
             <!--[=== ALL PAGE SCREENS ===]-->
-            <div
-                id="sceneContainer"
-                class="fixed w-full h-full"
-            >
-
+            <div id="sceneContainer" class="fixed w-full h-full">
                 <!-- MEET THE CREATOR -->
                 <!--
                     hey me pls add back "hidden" class
@@ -257,7 +253,7 @@
                 <div
                     id="creatorMenu"
                     class="hidden z-4 flex flex-row fixed text-left text-black text-7xl italic w-full h-full not-italic"
-                    style="font-family: Skip STD B;"
+                    style="font-family: Skip STD B"
                 >
                     <!-- bg -->
                     <video
@@ -274,19 +270,50 @@
 
                     <!-- Characters -->
                     <div class="w-1/2 z-5 h-full flex flex-col justify-center">
-                        <div class="bg-[#afb3b6] self-stretch h-1/12 w-2/7 absolute translate-x-[18%] -translate-y-[9%] [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"></div>
-                        
-                        <div class="bg-black self-stretch h-1/12 w-1/3 absolute z-10 overflow-hidden [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"> 
-                            <img src="images/auraGuy.png" class="scale-x-[-1] w-1/4 h-full object-cover"> 
-                        </div> 
-                        
-                        <div class="bg-white self-stretch h-1/12 w-2/3 flex flex-row justify-center items-center relative z-10 [clip-path:polygon(20%_0%,_100%_0,_98%_100%,_25%_100%,_10%_40%)]">
-                            <div><p class="text-3xl shrink-0">DimensionReset</p></div>
-                            <div class="h-12 border-l border-blue-400 -skew-x-[20deg] ml-8 mr-4"></div>
-                            <div class="h-2/5 flex items-end gap-2">
-                                <p class="text-sm">Lv</p>
-                                <p class="text-2xl">15</p>
+                        <div
+                            class="bg-[#afb3b6] self-stretch h-1/12 w-2/7 absolute translate-x-[18%] -translate-y-[9%] [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"
+                        ></div>
+
+                        <!-- GENESIS -->
+                        <!-- Profile Picture (made in canva :D) -->
+                        <div
+                            class="bg-black self-stretch h-1/12 w-1/3 absolute z-10 overflow-hidden [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"
+                        >
+                            <img
+                                src="images/auraGuy.png"
+                                class="w-1/4 h-full object-cover"
+                            />
+                        </div>
+
+                        <div
+                            class="bg-white self-stretch h-1/12 w-2/3 flex flex-row justify-center items-center relative z-10 [clip-path:polygon(25%_0%,_100%_0,_98%_100%,_25%_100%,_20%_40%)]"
+                        >
+                            <!-- name -->
+                            <div>
+                                <p class="text-lg md:text-2xl shrink-0 pl-15">
+                                    Genesis
+                                </p>
                             </div>
+
+                            <!-- slashy slash slash -->
+                            <div
+                                class="h-12 border-l border-blue-400 -skew-x-[20deg] ml-8 mr-4 hidden md:inline-block"
+                            ></div>
+
+                            <!-- level number -->
+                            <div class="h-2/5 flex items-end gap-2">
+                                <p
+                                    class="hidden text-xs md:text-sm md:inline-block"
+                                >
+                                    Lv
+                                </p>
+                                <p
+                                    class="hidden text-base md:text-xl md:inline-block"
+                                >
+                                    15
+                                </p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -339,7 +366,7 @@
                 snd = document.getElementById(name)
                 if not snd:
                     return
-                    
+
                 snd_clone = snd.cloneNode(True)
                 if vol:
                     snd_clone.volume = vol
@@ -347,10 +374,10 @@
                 def on_ended(event):
                     snd_clone.remove()
                     ended_proxy.destroy()
-                    
+
                 ended_proxy = create_proxy(on_ended)
                 snd_clone.addEventListener("ended", ended_proxy)
-                
+
                 snd_clone.play()
 
             # Cursor SVG Container
@@ -401,7 +428,7 @@
 
             # Event logic for when Backspace key is pressed
             escape_press_proxy = None # for event cleaning
-            
+
             def exit_scene(event):
                 global escape_press_proxy
 
@@ -449,13 +476,13 @@
 
                 svg_container.className = ""
                 global current_selected_span
-                
+
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
                 current_selected_span = document.querySelector('#optionsList > li > span')
 
                 if last_selected_text:
                     current_li = last_selected_text.closest("li")
-                    
+
                     if event.code == "KeyW" or event.code == "ArrowUp":
                         next_li = current_li.previousElementSibling
                     elif event.code == "KeyS" or event.code == "ArrowDown":
@@ -544,7 +571,7 @@
                 if loading_menu:
                     loading_menu.classList.add("hidden")
                     playSound("launchSFX")
-                    
+
                 # load scene
                 if options_menu:
                     playSound("colorYourNightMUS")
@@ -581,7 +608,7 @@
             # check for keypress
             arrow_proxy = create_proxy(option_select_arrow)
             window.addEventListener("keydown", arrow_proxy)
-            
+
             # check for keypress also
             loading_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", loading_proxy)
