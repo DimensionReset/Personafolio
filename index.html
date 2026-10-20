@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PERSONAAA</title>
+
+        <style>
+            /* === CUSTOM FONTS ===*/
+            @font-face {
+                font-family: "Fontworks Rodin";
+                src: url("fonts/RodinProB.otf") format("opentype");
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "Fontworks Rodin";
+                src: url("fonts/RodinProDB.otf") format("opentype");
+                font-weight: 600;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "Fontworks Rodin";
+                src: url("fonts/RodinProUB.otf") format("opentype");
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            /* === MAIN ===*/
+            body {
+                font-family:
+                    "Fontworks Rodin",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    Roboto,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            /* === ANIMATIONS === */
+            #optionsList span {
+                display: inline-block;
+                filter: url(#wavy);
+            }
+
+            .cursor-triangle-svg {
+                position: fixed !important;
+                transition:
+                    transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                    top 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                    left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+                transform-origin: left center;
+                pointer-events: none;
+            }
+        </style>
+
+        <script
+            type="module"
+            src="https://pyscript.net/releases/2026.7.2/core.js"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+
+    <body>
+        <!-- Wave Filter Definition -->
+        <svg width="100%" height="100%" style="display: none">
+            <!-- https://dev.to/codingdudecom/css-wavy-text-generator-3o2o -->
+            <!-- my GOAT <3 -->
+            
+            <defs>
+                <filter id="wavy" filterUnits="userSpaceOnUse" x="0" y="0">
+                    <feTurbulence
+                        id="wave-animation"
+                        numOctaves="1"
+                        seed="1"
+                        baseFrequency="0 0.0645034"
+                    ></feTurbulence>
+                    <feDisplacementMap
+                        scale="3.3"
+                        in="SourceGraphic"
+                    ></feDisplacementMap>
+                </filter>
+                <animate
+                    xlink:href="#wave-animation"
+                    attributeName="baseFrequency"
+                    dur="3s"
+                    keyTimes="0;0.5;1"
+                    values="0.0 0.04;0.0 0.07;0.0 0.04"
+                    repeatCount="indefinite"
+                ></animate>
+            </defs>
+        </svg>
+
+        <!-- MAIN -->
+        <div
+            class="relative h-screen w-full overflow-hidden flex items-center justify-center select-none"
+        >
+            <video
+                id="bgVid"
+                autoplay
+                muted
+                loop
+                playsinline
+                class="absolute inset-0 w-full h-full object-cover -z-10"
+            >
+                <source src="videos/loading-bg.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
+            <!--[=== LOADING SCREEN ===]-->
+            <div
+                id="loadingMenu"
+                class="fixed z-2 text-left w-full flex flex-col"
+            >
+                <div class="w-full flex flex-row">
+                    <div class="w-10 self-stretch"></div>
+                    <p
+                        class="font-semibold text-xl text-white [text-stroke:0] [-webkit-text-stroke:0]"
+                    >
+                        ICT Portfolio
+                    </p>
+                </div>
+
+                <div
+                    class="w-full flex flex-row text-black/7.5 font-semibold [text-stroke:0.01rem_white] [-webkit-text-stroke:0.01rem_white] text-8xl"
+                    id="loadingMenu"
+                >
+                    <div class="bg-blue-800 w-10 self-stretch"></div>
+                    <div>
+                        <h1>PRESS<br />ANY<br />BUTTON</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!--[=== MAIN MENU SCREEN ===]-->
+            <div
+                id="optionsMenu"
+                class="flex flex-row hidden fixed z-1 text-left text-[#83f2f9] text-5xl italic font-bold"
+            >
+                <div class="w-10 self-stretch"></div>
+
+                <ul
+                    class="list-none flex flex-col leading-[0.8]"
+                    id="optionsList"
+                >
+                    <!-- DO NOT REMOVE THE SPANS -->
+
+                    <li>
+                        <span>CREATOR</span>
+                    </li>
+                    <li>
+                        <span>CLUB</span>
+                    </li>
+                    <li>
+                        <span>CHECKER</span>
+                    </li>
+                    <li>
+                        <span>SUPPORT</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--[=== LITERALLY ALL OF THE CODE ===]-->
+        <script type="py">
+            print("Loaded!")
+
+            # === LIBRARIES ===
+            import random
+            from js import document, window
+            from pyodide.ffi import create_proxy
+
+            # === CONFIG ===
+            BASE_UNIT_WIDTH = 100
+
+
+            # === HELPER FUNCTIONS ===
+
+            # Cursor SVG Container
+            svg_ns = "http://www.w3.org/2000/svg"
+            svg_container = document.createElement("div")
+            svg_container.id = "global-cursor-container"
+            document.body.appendChild(svg_container)
+
+            # Helper to create template triangle SVGs (used for selection cursors)
+            def create_base_svg(poly_id, fill_color, extra_class="", y_offset=0, x_offset=0):
+                svg = document.createElementNS(svg_ns, "svg")
+                svg.setAttribute("width", "400")
+                svg.setAttribute("height", "200")
+                svg.setAttribute("viewBox", "0 0 400 200")
+                svg.setAttribute("class", f"overflow-visible fixed mix-blend-plus-lighter cursor-triangle-svg {extra_class}")
+
+                poly = document.createElementNS(svg_ns, "polygon")
+                poly.setAttribute("id", poly_id)
+                poly.setAttribute("points", f"{BASE_UNIT_WIDTH + x_offset},{0 + y_offset} {BASE_UNIT_WIDTH + x_offset},{40 + y_offset} 0,{45 - y_offset}")
+                poly.setAttribute("fill", fill_color)
+
+                svg.appendChild(poly)
+                svg_container.appendChild(svg)
+
+                return svg
+
+            # cursor triangle set-up
+            y_rand = random.uniform(-3, 7)
+            svg_front = create_base_svg("triangleFront", "rgb(255, 0, 0)", x_offset=4, y_offset=y_rand) # matches back half
+            svg_red = create_base_svg("triangleRed", "rgb(255, 0, 0)", extra_class="z-1") # makes text red
+            svg_back = create_base_svg("triangleBack", "rgb(255, 255, 255)", extra_class="-z-1") # matches front half
+
+            # CURSOR HANDLING
+            current_selected_span = None
+
+            # Event logic for when <li> is clicked
+            def option_select(event):
+                global current_selected_span
+                last_selected_text = document.querySelector("#optionsList li span.text-black")
+                clicked_item_text = event.target.closest("span")
+
+                if not clicked_item_text:
+                    return
+
+                if last_selected_text:
+                    last_selected_text.classList.remove("text-black")
+
+                clicked_item_text.classList.add("text-black")
+
+                current_selected_span = clicked_item_text
+                update_cursor_position()
+
+            # Helper to update cursor pos after event and option select
+            def update_cursor_position(event=None):
+                global current_selected_span
+                if not current_selected_span:
+                    return
+
+                rect = current_selected_span.getBoundingClientRect()
+                text_width = rect.width
+                scale_x = text_width / BASE_UNIT_WIDTH
+
+                is_resize = event is not None
+
+                for svg in [svg_front, svg_red, svg_back]:
+                    if is_resize:
+                        svg.style.transition = "none"
+                    else:
+                        svg.style.transition = "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), top 0.3s cubic-bezier(0.25, 1, 0.5, 1), left 0.3s cubic-bezier(0.25, 1, 0.5, 1)"
+
+                    svg.style.top = f"{rect.top + 3}px"
+                    svg.style.left = f"{rect.left}px"
+                    svg.style.transform = f"scaleX({scale_x})"
+
+            # check for viewport resizing
+            resize_proxy = create_proxy(update_cursor_position)
+            window.addEventListener("resize", resize_proxy)
+
+            # Event logic for exiting loading screen on keypress
+            def handle_keypress(event):
+                # menus
+                bg_vid = document.getElementById("bgVid")
+                loading_menu = document.getElementById("loadingMenu")
+                options_menu = document.getElementById("optionsMenu")
+
+                # remove prev scene here
+                if loading_menu:
+                    loading_menu.classList.add("hidden")
+
+                # load scene
+                if options_menu:
+                    options_menu.classList.remove("hidden")
+                    bg_vid.src = "videos/main-bg.mp4"
+
+                    list_items = document.querySelectorAll("#optionsList li")
+                    depth = 1
+
+                    for item in list_items:
+                        random_offset = random.uniform(-5, 0)
+
+                        if depth == 1:
+                            item.classList.add("z-3")
+                        elif depth == 2:
+                            item.classList.add("z-2", "text-[#3bc5fc]")
+                        else:
+                            item.classList.add("z-1", "text-[#5fccfa]")
+                            depth = 0
+
+                        depth += 1
+
+                        # check for item click for cursor shi
+                        click_proxy = create_proxy(option_select)
+                        item.addEventListener("click", click_proxy)
+
+                        item.classList.add(f"-my-{(random_offset/10)*-1}", "cursor-pointer", "inline-block", "relative")
+                        item.style.transform = f"rotate({random_offset}deg)"
+
+                # event cleanup
+                window.removeEventListener("keydown", keypress_proxy)
+                keypress_proxy.destroy()
+
+            # check for keypress
+            keypress_proxy = create_proxy(handle_keypress)
+            window.addEventListener("keydown", keypress_proxy)
+        </script>
+    </body>
+</html>
