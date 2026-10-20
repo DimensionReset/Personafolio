@@ -3,8 +3,8 @@
 
 ## Why is this README here?
 Honestly this site is so peak I'll probably put it on my main account.
-OOOH YEAH DADADA DA DA DADA DA DA BABY BABY
-The page is here: 
+
+Here is the link: https://aquino-genesis.github.io/LasPinas_ICT10_Q2Project_Aquino_Genesis/  
 
 ## Additional Information
 ### **License Details**  
