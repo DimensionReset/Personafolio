@@ -108,8 +108,11 @@
             }
 
             #optionsList span {
-                /* for the wavy effect on text */
                 display: inline-block;
+            }
+
+            #optionsList span:not([class="text-black"]) {
+                /* for the wavy effect on text */
                 filter: url(#wavy);
             }
 
@@ -281,7 +284,7 @@
                         >
                             <img
                                 src="images/auraGuy.png"
-                                class="w-1/4 h-full object-cover"
+                                class="w-auto h-full object-cover pl-3"
                             />
                         </div>
 
@@ -616,7 +619,7 @@
             arrow_proxy = create_proxy(option_select_arrow)
             window.addEventListener("keydown", arrow_proxy)
 
-            # check for keypress also
+            # same but for loading
             loading_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", loading_proxy)
         </script>
