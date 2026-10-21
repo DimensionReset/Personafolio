@@ -241,8 +241,9 @@
         <div
             class="relative h-screen w-full overflow-hidden flex items-center justify-center select-none"
         >
+
             <video
-                id="mainBgVid"
+                id="loadingBgVid"
                 autoplay
                 muted
                 loop
@@ -250,6 +251,28 @@
                 class="absolute inset-0 w-full h-full object-cover -z-10"
             >
                 <source src="videos/loading-bg.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
+            <video
+                id="transitionVid"
+
+                muted
+                playsinline
+                class="absolute inset-0 w-full h-full object-cover -z-10"
+            >
+                <source src="videos/main-transition.webm" type="video/webm" />
+                Your browser does not support the video tag.
+            </video>
+
+            <video
+                id="mainBgVid"
+                muted
+                loop
+                playsinline
+                class="absolute inset-0 w-full h-full object-cover -z-10 hidden"
+            >
+                <source src="videos/main-bg.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 
@@ -725,7 +748,11 @@
             # Event logic for exiting loading screen on keypress
             def handle_loading_exit(event):
                 # menus
+                transition_vid = document.getElementById("transitionVid")
+
+                loading_bg_vid = document.getElementById("loadingBgVid")
                 main_bg_vid = document.getElementById("mainBgVid")
+                
                 loading_menu = document.getElementById("loadingMenu")
                 options_menu = document.getElementById("optionsMenu")
 
@@ -736,42 +763,63 @@
 
                 # load scene
                 if options_menu:
+                    transition_vid.play()
                     playSound("colorYourNightMUS")
-                    options_menu.classList.remove("hidden")
-                    main_bg_vid.src = "videos/main-bg.mp4"
 
-                    list_items = document.querySelectorAll("#optionsList li")
-                    depth = 1
+                    def setup_options_menu(event=None):
+                        loading_bg_vid.classList.add("hidden")
 
-                    for item in list_items:
-                        random_offset = random.uniform(-12, -9)
+                        list_items = document.querySelectorAll("#optionsList li")
+                        depth = 1
 
-                        if depth == 1:
-                            item.classList.add("z-3")
-                        elif depth == 2:
-                            item.classList.add("z-2", "text-[#3bc5fc]")
-                        else:
-                            item.classList.add("z-1", "text-[#5fccfa]")
-                            depth = 0
+                        for item in list_items:
+                            random_offset = random.uniform(-12, -9)
 
-                        depth += 1
+                            if depth == 1:
+                                item.classList.add("z-3")
+                            elif depth == 2:
+                                item.classList.add("z-2", "text-[#3bc5fc]")
+                            else:
+                                item.classList.add("z-1", "text-[#5fccfa]")
+                                depth = 0
 
-                        # check for item click for cursor shi
-                        click_proxy = create_proxy(option_select_mouse)
-                        item.addEventListener("click", click_proxy)
+                            depth += 1
 
-                        item.classList.add(f"-my-{(random_offset/10)*-1}", "cursor-pointer", "inline-block", "relative")
-                        item.style.transform = f"rotate({random_offset}deg)"
+                            # check for item click for cursor shi
+                            click_proxy = create_proxy(option_select_mouse)
+                            item.addEventListener("click", click_proxy)
+
+                            item.classList.add(f"-my-{(random_offset/10)*-1}", "cursor-pointer", "inline-block", "relative")
+                            item.style.transform = f"rotate({random_offset}deg)"
+
+                        # setup mouse events for skill here so init dont bug
+                        for item in document.querySelectorAll("#skillsList > div"):
+                            # check for SKILL click for cursor shi
+                            skill_click_proxy = create_proxy(skill_select_mouse)
+                            item.addEventListener("click", skill_click_proxy)
+
+                        options_menu.classList.remove("hidden")
+
+                    def transition_video_time(event):
+                        if transition_vid.currentTime >= 1.5:
+                            setup_options_menu()
+                            transition_vid.removeEventListener("timeupdate", transition_time_proxy)
+                            transition_time_proxy.destroy()
+
+                    def transition_video_end(event):
+                        main_bg_vid.play()
+                        main_bg_vid.classList.remove("hidden")
+                        transition_vid.classList.add("hidden")
+
+                    transition_end_proxy = create_proxy(transition_video_end)
+                    transition_vid.addEventListener("ended", transition_end_proxy)
+
+                    transition_time_proxy = create_proxy(transition_video_time)
+                    transition_vid.addEventListener("timeupdate", transition_time_proxy)
 
                 # event cleanup
                 window.removeEventListener("keydown", loading_proxy)
                 loading_proxy.destroy()
-
-                # setup mouse events for skill here so init dont bug
-                for item in document.querySelectorAll("#skillsList > div"):
-                    # check for SKILL click for cursor shi
-                    skill_click_proxy = create_proxy(skill_select_mouse)
-                    item.addEventListener("click", skill_click_proxy)
 
             # check for keypress in options list
             option_arrow_proxy = create_proxy(option_select_arrow)
