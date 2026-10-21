@@ -97,10 +97,10 @@
             /* skills list animations */
             @keyframes shadow-grow {
                 0% {
-                    box-shadow: 0px -15px 0px 0px rgba(255,0,0,1)
+                    box-shadow: 0px -20px 0px 0px rgba(255,0,0,1)
                 }
                 30% {
-                    box-shadow: 0px -11px 0px 0px rgba(255,0,0,1)
+                    box-shadow: 0px -13px 0px 0px rgba(255,0,0,1)
                 }
                 100% {
                     box-shadow: 0px -5px 0px 0px rgba(255,0,0,1)
@@ -108,7 +108,7 @@
             }
 
             .animate-shadow-grow {
-                animation: shadow-grow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+                animation: shadow-grow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             }
 
             #skillsList {
@@ -262,7 +262,7 @@
                 </div>
 
                 <div
-                    class="w-full flex flex-row text-black/7.5 font-semibold [text-stroke:0.04rem_white] [-webkit-text-stroke:0.04rem_white] text-8xl lg:text-9xl"
+                    class="w-full flex flex-row text-black/7.5 font-semibold [text-stroke:0.04rem_white] [-webkit-text-stroke:0.04rem_white] lg:[text-stroke:0.08rem_white] lg:[-webkit-text-stroke:0.08rem_white] text-8xl lg:text-9xl"
                     id="loadingMenu"
                 >
                     <div class="bg-blue-800 w-10 self-stretch"></div>
@@ -579,8 +579,6 @@
                 last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
 
                 if last_selected:
-                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
-
                     if event.code == "KeyW" or event.code == "ArrowUp":
                         if not last_selected.previousElementSibling:
                             current_selected = document.querySelector("#creatorMenu #skillsList > div:last-child")
@@ -596,6 +594,8 @@
                         return
                     else:
                         return
+                    
+                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
 
                 if current_selected:
                     current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
