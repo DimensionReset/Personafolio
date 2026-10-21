@@ -171,6 +171,19 @@
                 animation: heartbeat 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                 transform-origin: center left;
             }
+
+            @keyframes circle-wipe-in {
+                0% {
+                    clip-path: circle(0% at 50% 50%);
+                }
+                100% {
+                    clip-path: circle(150% at 50% 50%);
+                }
+            }
+
+            .animate-circle-wipe {
+                animation: circle-wipe-in 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            }
         </style>
 
         <script
@@ -542,7 +555,10 @@
                     scene.classList.add("hidden")
 
                 if options_menu:
+                    options_menu.classList.remove("animate-circle-wipe")
+                    options_menu.offsetHeight
                     options_menu.classList.remove("hidden")
+                    options_menu.classList.add("animate-circle-wipe")
                     svg_container.classList.remove("hidden")
 
             # Event logic for when Backspace key is pressed
@@ -579,7 +595,10 @@
                 for scene in all_scenes:
                     scene.classList.add("hidden")
 
+                sceneContainer.classList.remove("animate-circle-wipe")
+                sceneContainer.offsetHeight  
                 sceneContainer.classList.remove("hidden")
+                sceneContainer.classList.add("animate-circle-wipe")
 
                 if escape_press_proxy:
                     window.removeEventListener("keydown", escape_press_proxy)
