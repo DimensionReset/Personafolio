@@ -94,13 +94,39 @@
 
             /* === ANIMATIONS === */
 
+            /* skills list animations */
+            @keyframes shadow-grow {
+                0% {
+                    box-shadow: 0px -15px 0px 0px rgba(255,0,0,1)
+                }
+                30% {
+                    box-shadow: 0px -11px 0px 0px rgba(255,0,0,1)
+                }
+                100% {
+                    box-shadow: 0px -5px 0px 0px rgba(255,0,0,1)
+                }
+            }
+
+            .animate-shadow-grow {
+                animation: shadow-grow 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            #skillsList {
+                position: relative;
+            }
+
+            #skillsList > div {
+                transition: background-color 0.25s cubic-bezier(0.25, 1, 0.5, 1), color 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+                transform-origin: left center;
+            }
+
             /* text growth animations*/
             ul li span {
                 transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
             }
 
             ul li:has(span.text-black) {
-                z-index: 3 !important;
+                z-index: 4 !important;
             }
 
             ul li span.text-black {
@@ -283,7 +309,7 @@
                             class="bg-black self-stretch h-1/12 w-1/3 absolute z-10 overflow-hidden [clip-path:polygon(0_0,_100%_0,_98%_100%,_0_100%)]"
                         >
                             <img
-                                src="images/auraGuy.png"
+                                src="images/aura_guy.png"
                                 class="w-auto h-full object-cover pl-3"
                             />
                         </div>
@@ -317,7 +343,19 @@
                                     15
                                 </p>
                             </div>
+                        </div>
+                    </div>
 
+                    <!-- Skill List -->
+                    <div class="w-1/2 z-5 h-full flex flex-col justify-start py-25 pl-20 text-xl text-[#00d8ff] gap-1" id="skillsList">
+                        <div class="w-full flex flex-row py-3 pl-1 rounded">
+                            <img src="images/skills/nav_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                            <span class="pl-1">Web Development</span>
+                        </div>
+
+                        <div class="w-full flex flex-row py-3 pl-1 rounded">
+                            <img src="images/skills/nav_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                            <span class="pl-1">Game Development</span>
                         </div>
                     </div>
                 </div>
@@ -517,6 +555,37 @@
                     playSound("uiSliderSFX")
                     update_cursor_position()
 
+            # Event logic for when cycling through skill menu with arrows or WASD
+            def skill_select_arrow(event):
+                if document.getElementById("creatorMenu").classList.contains("hidden"):
+                    return
+
+                current_selected = document.querySelector("#creatorMenu #skillsList > div")
+                last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
+
+                if last_selected:
+                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+
+                    if event.code == "KeyW" or event.code == "ArrowUp":
+                        if not last_selected.previousElementSibling:
+                            current_selected = document.querySelector("#creatorMenu #skillsList > div:last-child")
+                        else:
+                            current_selected = last_selected.previousElementSibling 
+                    elif event.code == "KeyS" or event.code == "ArrowDown":
+                        if not last_selected.nextElementSibling:
+                            current_selected = document.querySelector("#creatorMenu #skillsList > div")
+                        else:
+                            current_selected = last_selected.nextElementSibling
+                    elif event.code == "Space":
+                        playSound("activationSFX")
+                        return
+                    else:
+                        return
+
+                if current_selected:
+                    current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                    playSound("uiSliderSFX")
+
             # Event logic for when <li> is clicked
             def option_select_mouse(event):
                 if document.getElementById("optionsMenu").classList.contains("hidden"):
@@ -543,6 +612,28 @@
                 current_selected_span = clicked_item_text
                 playSound("uiSliderSFX")
                 update_cursor_position()
+
+            # Event logic for when skill is clicked
+            def skill_select_mouse(event):
+                if document.getElementById("creatorMenu").classList.contains("hidden"):
+                    return
+
+                # Find the closest skill list row element (div) if clicking an image/span inside it
+                current_selected = event.target.closest("#skillsList > div")
+                if not current_selected:
+                    return
+
+                last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
+
+                if last_selected:
+                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+
+                if current_selected == last_selected:
+                    playSound("activationSFX")
+                    return
+                
+                current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                playSound("uiSliderSFX")
 
             # Helper to update cursor pos after event and option select
             def update_cursor_position(event=None):
@@ -615,9 +706,18 @@
                 window.removeEventListener("keydown", loading_proxy)
                 loading_proxy.destroy()
 
-            # check for keypress
-            arrow_proxy = create_proxy(option_select_arrow)
-            window.addEventListener("keydown", arrow_proxy)
+            for item in document.querySelectorAll("#skillsList"):
+                # check for SKILL click for cursor shi
+                skill_click_proxy = create_proxy(skill_select_mouse)
+                item.addEventListener("click", skill_click_proxy)
+
+            # check for keypress in options list
+            option_arrow_proxy = create_proxy(option_select_arrow)
+            window.addEventListener("keydown", option_arrow_proxy)
+
+            # check for keypress in creator list
+            skill_arrow_proxy = create_proxy(skill_select_arrow)
+            window.addEventListener("keydown", skill_arrow_proxy)
 
             # same but for loading
             loading_proxy = create_proxy(handle_loading_exit)
