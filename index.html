@@ -103,7 +103,7 @@
                     box-shadow: 0px -13px 0px 0px rgba(255,0,0,1)
                 }
                 100% {
-                    box-shadow: 0px -5px 0px 0px rgba(255,0,0,1)
+                    box-shadow: 0px -8px 0px 0px rgba(255,0,0,1)
                 }
             }
 
@@ -194,6 +194,10 @@
 
         <audio id="launchSFX" onloadeddata="this.volume = 0.25">
             <source src="sound/sfx/launch_game.wav" type="audio/wav" />
+        </audio>
+
+        <audio id="bumperEndSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/bumper_end.wav" type="audio/wav" />
         </audio>
 
         <audio id="activationSFX" onloadeddata="this.volume = 0.25">
@@ -320,7 +324,7 @@
                         >
                             <!-- name -->
                             <div>
-                                <p class="text-lg md:text-2xl shrink-0 pl-15">
+                                <p class="text-lg md:text-2xl xl:text-3xl shrink-0 pl-15">
                                     Genesis
                                 </p>
                             </div>
@@ -333,12 +337,12 @@
                             <!-- level number -->
                             <div class="h-2/5 flex items-end gap-2">
                                 <p
-                                    class="hidden text-xs md:text-sm md:inline-block"
+                                    class="hidden text-xs md:text-sm xl:text-base md:inline-block"
                                 >
                                     Lv
                                 </p>
                                 <p
-                                    class="hidden text-base md:text-xl md:inline-block"
+                                    class="hidden text-base md:text-xl xl:text-2xl md:inline-block"
                                 >
                                     15
                                 </p>
@@ -346,33 +350,68 @@
                         </div>
                     </div>
 
-                    <!-- Skill List -->
-                    <div class="w-1/2 z-5 h-full flex flex-col justify-start py-25 pl-20 text-xl text-[#00d8ff] gap-1" id="skillsList">
-                        <div class="w-full flex flex-row py-3 pl-1 rounded">
-                            <img src="images/skills/nav_skill.png" class="w-1/6 h-auto inline-block object-contain">
-                            <span class="pl-1">Web Development</span>
+                    <!-- Skill Information -->
+                    <div class="w-1/2 h-1/2 flex flex-col justify-between">
+                        <!-- Skill List -->
+                        <div class="w-full z-5 h-1/2 flex flex-col justify-start py-25 pl-20 text-xl md:text-2xl xl:text-3xl text-[#00d8ff] gap-1" id="skillsList">
+                            <div class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto">
+                                <img src="images/skills/nav_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                                <span
+                                    class="pl-1"
+                                    data-desc="Been doing web development since the middle of 8th Grade. Pretty fun!"
+                                    >
+                                    Web Development
+                                </span>
+                            </div>
+
+                            <div class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto">
+                                <img src="images/skills/electric_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                                <span
+                                    class="pl-1"
+                                    data-desc="Pursued game dev since I was 9. Nowadays, I don't do it much anymore."
+                                    >
+                                    Game Development
+                                </span>
+                            </div>
+
+                            <div class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto">
+                                <img src="images/skills/light_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                                <span
+                                    class="pl-1"
+                                    data-desc="Started debloating my PC one day and enjoyed taking back all my freedom from Windows."
+                                    >
+                                    Cybersecurity
+                                </span>
+                            </div>
+
+                            <div class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto">
+                                <img src="images/skills/darkness_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                                <span
+                                    class="pl-1"
+                                    data-desc="Was messing around with my school platform one day then found some vulnerabilities within it."
+                                    >
+                                    Hacking
+                                </span>
+                            </div>
+
+                            <div class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto">
+                                <img src="images/skills/almighty_skill.png" class="w-1/6 h-auto inline-block object-contain">
+                                <span
+                                    class="pl-1"
+                                    data-desc="Deals ultimate Almighty damage to all enemies in exchange for your HP and SP reducing to one."
+                                    >
+                                    Armageddon
+                                </span>
+                            </div>
                         </div>
 
-                        <div class="w-full flex flex-row py-3 pl-1 rounded">
-                            <img src="images/skills/electric_skill.png" class="w-1/6 h-auto inline-block object-contain">
-                            <span class="pl-1">Game Development</span>
-                        </div>
+                        <div class="w-full z-5 h-auto flex flex-row justify-start items-start pl-60 pt-100 gap-5 text-xl md:text-2xl xl:text-3xl text-[#00d8ff]" id="skillsInfo"> 
+                            <span style="font-family: 'Fontworks Rodin';" class="font-semibold text-sm md:text-base xl:text-lg rounded-full border-[#00d8ff] border-4 px-6 leading-none">Info</span>
 
-                        <div class="w-full flex flex-row py-3 pl-1 rounded">
-                            <img src="images/skills/light_skill.png" class="w-1/6 h-auto inline-block object-contain">
-                            <span class="pl-1">Cybersecurity</span>
-                        </div>
-
-                        <div class="w-full flex flex-row py-3 pl-1 rounded">
-                            <img src="images/skills/darkness_skill.png" class="w-1/6 h-auto inline-block object-contain">
-                            <span class="pl-1">Hacking</span>
-                        </div>
-
-                        <div class="w-full flex flex-row py-3 pl-1 rounded">
-                            <img src="images/skills/almighty_skill.png" class="w-1/6 h-auto inline-block object-contain">
-                            <span class="pl-1">Armageddon</span>
-                        </div>
+                            <p id="skillDescription" class="leading-none w-3/5">OOH YEAH! DADADA DA DA DADA DA DAW BABY BABY...</p>
+                        </div> 
                     </div>
+                    
                 </div>
             </div>
 
@@ -590,15 +629,18 @@
                         else:
                             current_selected = last_selected.nextElementSibling
                     elif event.code == "Space":
-                        playSound("activationSFX")
+                        playSound("bumperEndSFX")
                         return
                     else:
                         return
                     
-                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-8px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
 
                 if current_selected:
-                    current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                    if current_selected.querySelector("span") and current_selected.querySelector("span").dataset.desc:
+                        document.getElementById("skillDescription").innerHTML = current_selected.querySelector("span").dataset.desc
+
+                    current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-8px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
                     playSound("uiSliderSFX")
 
             # Event logic for when <li> is clicked
@@ -641,13 +683,17 @@
                 last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
 
                 if last_selected:
-                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                    last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-8px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
 
                 if current_selected == last_selected:
-                    playSound("activationSFX")
+                    playSound("bumperEndSFX")
                     return
                 
-                current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-5px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
+                
+                if current_selected.querySelector("span") and current_selected.querySelector("span").dataset.desc:
+                    document.getElementById("skillDescription").innerHTML = current_selected.querySelector("span").dataset.desc
+                        
+                current_selected.classList.add("bg-white", "text-black", "shadow-[0px_-8px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
                 playSound("uiSliderSFX")
 
             # Helper to update cursor pos after event and option select
@@ -721,10 +767,11 @@
                 window.removeEventListener("keydown", loading_proxy)
                 loading_proxy.destroy()
 
-            for item in document.querySelectorAll("#skillsList"):
-                # check for SKILL click for cursor shi
-                skill_click_proxy = create_proxy(skill_select_mouse)
-                item.addEventListener("click", skill_click_proxy)
+                # setup mouse events for skill here so init dont bug
+                for item in document.querySelectorAll("#skillsList > div"):
+                    # check for SKILL click for cursor shi
+                    skill_click_proxy = create_proxy(skill_select_mouse)
+                    item.addEventListener("click", skill_click_proxy)
 
             # check for keypress in options list
             option_arrow_proxy = create_proxy(option_select_arrow)
