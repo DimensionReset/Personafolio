@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
         <title>PERSONA</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.png">
 
         <!-- Preload Fontworks New Rodin Family -->
         <link rel="preload" href="fonts/NewRodinProL.otf" as="font" type="font/opentype" crossorigin="anonymous">
@@ -595,6 +597,7 @@
                 sceneContainer = document.getElementById(f"{name}Menu")
 
                 if not sceneContainer:
+                    playSound("bumperEndSFX")
                     return
 
                 options_menu = document.getElementById("optionsMenu")
@@ -607,6 +610,7 @@
                 for scene in all_scenes:
                     scene.classList.add("hidden")
 
+                playSound("activationSFX")
                 sceneContainer.classList.remove("animate-circle-wipe")
                 sceneContainer.offsetHeight  
                 sceneContainer.classList.remove("hidden")
@@ -644,7 +648,6 @@
                         else:
                             next_li = current_li.nextElementSibling
                     elif event.code == "Space":
-                        playSound("activationSFX")
                         load_scene(last_selected_text.innerHTML)
                         return
                     else:
@@ -712,7 +715,6 @@
 
                 if last_selected_text:
                     if clicked_item_text == last_selected_text:
-                        playSound("activationSFX")
                         load_scene(clicked_item_text.innerHTML)
                         return
 
