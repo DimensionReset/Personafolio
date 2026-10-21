@@ -747,7 +747,7 @@
 
             # Event logic for exiting loading screen on keypress
             def handle_loading_exit(event):
-                # menus
+                # < Menus >
                 transition_vid = document.getElementById("transitionVid")
 
                 loading_bg_vid = document.getElementById("loadingBgVid")
@@ -772,6 +772,7 @@
                         list_items = document.querySelectorAll("#optionsList li")
                         depth = 1
 
+                        # text has cool depth staircase type effect
                         for item in list_items:
                             random_offset = random.uniform(-12, -9)
 
@@ -800,17 +801,20 @@
 
                         options_menu.classList.remove("hidden")
 
+                    # event logic for checking transition timestamp and adding in the options
                     def transition_video_time(event):
                         if transition_vid.currentTime >= 1.5:
                             setup_options_menu()
                             transition_vid.removeEventListener("timeupdate", transition_time_proxy)
                             transition_time_proxy.destroy()
 
+                    # event logic for checking if transition is done then looping the actual bg
                     def transition_video_end(event):
                         main_bg_vid.play()
                         main_bg_vid.classList.remove("hidden")
                         transition_vid.classList.add("hidden")
 
+                    # < TRANSITION PROXIES >
                     transition_end_proxy = create_proxy(transition_video_end)
                     transition_vid.addEventListener("ended", transition_end_proxy)
 
@@ -821,15 +825,16 @@
                 window.removeEventListener("keydown", loading_proxy)
                 loading_proxy.destroy()
 
-            # check for keypress in options list
+            # < KEYPRESS PROXIES >
+            # keypress in options list
             option_arrow_proxy = create_proxy(option_select_arrow)
             window.addEventListener("keydown", option_arrow_proxy)
 
-            # check for keypress in creator list
+            # keypress in creator list
             skill_arrow_proxy = create_proxy(skill_select_arrow)
             window.addEventListener("keydown", skill_arrow_proxy)
 
-            # same but for loading
+            # keypress in loading
             loading_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", loading_proxy)
         </script>
