@@ -670,14 +670,14 @@
 
             # Event logic for when cycling through <li> with arrows or WASD
             def option_select_arrow(event):
+                if document.getElementById("optionsMenu").classList.contains("hidden"):
+                    return
+
                 svg_container.className = ""
                 global current_selected_span
 
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
                 current_selected_span = document.querySelector("#optionsList > li > span")
-
-                if document.getElementById("optionsMenu").classList.contains("hidden"):
-                    return
 
                 if last_selected_text:
                     current_li = last_selected_text.closest("li")
@@ -713,11 +713,11 @@
 
             # Event logic for when cycling through skill menu with arrows or WASD
             def skill_select_arrow(event):
-                current_selected = document.querySelector("#creatorMenu #skillsList > div")
-                last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
-
                 if document.getElementById("creatorMenu").classList.contains("hidden"):
                     return
+
+                current_selected = document.querySelector("#creatorMenu #skillsList > div")
+                last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
 
                 if last_selected:
                     if event.code == "KeyW" or event.code == "ArrowUp":
@@ -747,13 +747,13 @@
 
             # Event logic for when <li> is clicked
             def option_select_mouse(event):
+                if document.getElementById("optionsMenu").classList.contains("hidden"):
+                    return
+
                 svg_container.className = ""
                 global current_selected_span
                 last_selected_text = document.querySelector("#optionsList li span.text-black")
                 clicked_item_text = event.target.closest("span")
-
-                if document.getElementById("optionsMenu").classList.contains("hidden"):
-                    return
 
                 if not clicked_item_text:
                     return
@@ -773,15 +773,15 @@
 
             # Event logic for when skill is clicked
             def skill_select_mouse(event):
+                if document.getElementById("creatorMenu").classList.contains("hidden"):
+                    return
+
                 # Find the closest skill list row element (div) if clicking an image/span inside it
                 current_selected = event.target.closest("#skillsList > div")
                 if not current_selected:
                     return
 
                 last_selected = document.querySelector("#creatorMenu #skillsList div.bg-white")
-
-                if document.getElementById("creatorMenu").classList.contains("hidden"):
-                    return
 
                 if last_selected:
                     last_selected.classList.remove("bg-white", "text-black", "shadow-[0px_-8px_0px_0px_rgba(255,0,0,1)]", "animate-shadow-grow")
