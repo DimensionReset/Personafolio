@@ -681,7 +681,7 @@
                             current_selected = document.querySelector("#creatorMenu #skillsList > div")
                         else:
                             current_selected = last_selected.nextElementSibling
-                    elif event.code == "Space":
+                    elif event.code == "Space" or event.code == "Enter":
                         playSound("bumperEndSFX")
                         return
                     else:
