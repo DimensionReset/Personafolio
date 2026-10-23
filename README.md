@@ -8,4 +8,4 @@ Here is the link: [https://aquino-genesis.github.io/LasPinas_ICT10_Q2Project_Aqu
 
 ## Additional Information
 ### **License Details**  
-This project is licensed under the [**APGL-3.0**](https://github.com/DimensionReset/Slime-Gemini/blob/main/LICENSE) license.
+This project is licensed under the [**AGPL-3.0**](https://github.com/DimensionReset/Slime-Gemini/blob/main/LICENSE) license.
