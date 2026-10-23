@@ -94,6 +94,21 @@
 
             /* === ANIMATIONS === */
 
+            @keyframes bob {
+                0%, 15% {
+                    transform: translateY(8px);
+                }
+
+                10%, 25%, 100% {
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-bob {
+                display: inline-block;
+                animation: bob 1.5s ease-in infinite;
+            }
+
             /* skills list animations */
             @keyframes shadow-grow {
                 0%,
@@ -221,6 +236,14 @@
 
         <audio id="hideSFX" onloadeddata="this.volume = 0.25">
             <source src="sound/sfx/hide.wav" type="audio/wav" />
+        </audio>
+
+        <audio id="switchToggleSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/switch_toggle.wav" type="audio/wav" />
+        </audio>
+
+        <audio id="socialLinkNoteSFX" onloadeddata="this.volume = 0.25">
+            <source src="sound/sfx/social_link_note.mp3" type="audio/mp3" />
         </audio>
 
         <!-- Wave Filter Definition -->
@@ -547,27 +570,31 @@
                             </div>
                         </div>
 
+                        <!-- submit button -->
                         <button
-                            class="w-1/3 pointer-click italic"
+                            class="w-1/3 cursor-pointer text-[#1411fb] text-[3.5cqh] hover:text-[4cqh] hover:text-[#00d8ff] transition-all duration-300 ease-in-out"
                             py-click="club_check"
-                        >Submit
+                        >&lt; <span>Sign</span> &gt;
                         </button>
                     </div>
 
-                    <div class="invisible absolute bottom-0 flex flex-col w-full sm:bottom-6 sm:w-11/12 md:w-3/4 lg:w-1/2 max-h-[85vh] bg-[url('images/dialogue-box.png')] shadow bg-contain bg-center bg-no-repeat p-8 aspect-[1024/238] z-5 pointer-events-auto" id="clubOutputContainer"> 
+                    <div py-click="club_close" class="invisible absolute bottom-0 flex flex-col w-full sm:bottom-[2.34cqi] sm:w-11/12 md:w-3/4 lg:w-1/2 max-h-[85vh] bg-[url('images/dialogue-box.png')] shadow bg-contain bg-center bg-no-repeat p-[3.13cqi] aspect-[1024/238] z-5 pointer-events-auto" id="clubOutputContainer"> 
                         
-                        <span class="text-start text-white w-full flex-1 overflow-y-auto pb-4 pt-10 px-10 indent-25" id="clubOutput"></span> 
-                        
-                        <div class="text-center flex flex-col items-end justify-end pt-2"> 
-                            <button class="pointer-click w-full sm:w-auto px-6" py-click="club_close">
+                        <!-- output text -->
+                        <span class="text-start text-[1.5cqi] text-white w-full flex-1 overflow-y-auto pb-[4cqi] mt-[6cqi] ml-[2cqi] indent-[5cqi]" id="clubOutput"></span> 
+                    
+                        <div class="text-center flex flex-col items-end justify-end pt-[0.78cqi]"> 
+                            <button class="w-full sm:w-auto px-[2.34cqi]">
                                     <!-- arrowhead -->
-                                    <div class="w-16 h-12 bg-blue-800 flex items-center justify-center [clip-path:polygon(0%_0%,_100%_0%,_50%_40%)]">
-                                        <div class="w-16 h-12 bg-white [clip-path:polygon(0%_0%,_40%_50%,_100%_0%,_85%_0%,_50%_30%,_15%_0%)]"></div>
+                                    <div class="w-[6.25cqi] h-[4.69cqi] bg-blue-800 flex items-center justify-center text-[#1411fb] [clip-path:polygon(0%_0%,_100%_0%,_50%_40%)] animate-bob cursor-pointer">
+                                        <div class="w-[6.25cqi] h-[4.69cqi] bg-white [clip-path:polygon(0%_0%,_40%_50%,_100%_0%,_85%_0%,_50%_30%,_15%_0%)]"></div>
                                     </div>
                             </button> 
                         </div> 
 
                     </div>
+
+
                 </div>
 
             </div>
@@ -987,6 +1014,7 @@
             
             def club_close(event):
                 container = document.getElementById("clubOutputContainer")
+                playSound("switchToggleSFX")
 
                 container.classList.add("invisible")
 
@@ -1075,7 +1103,8 @@
                     return
 
                 if (f"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}") in persona_users:
-                    club_output(f"I found my name on the registry!")
+                    club_output(f"I feel like I've forged a powerful bond...")
+                    play("socialLinkNoteSFX")
                 else:
                     club_output(f"\"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}\"... I don't think I spelled that correctly...")
         </script>
