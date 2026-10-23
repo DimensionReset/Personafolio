@@ -419,21 +419,21 @@
                     </div>
 
                     <!-- Skill Information -->
-                    <div class="w-1/2 h-1/2 flex flex-col justify-between">
+                    <div class="w-1/2 h-full flex flex-col justify-start pl-10 pr-5 py-50">
                         <!-- Skill List -->
                         <div
-                            class="w-full z-5 h-1/2 flex flex-col justify-start py-25 pl-20 text-xs md:text-lg xl:text-xl text-[#00d8ff] gap-1"
+                            class="w-full z-5 flex flex-col justify-start text-xs md:text-lg xl:text-xl text-[#00d8ff] gap-1 md:gap-2 pointer-events-auto"
                             id="skillsList"
                         >
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/nav_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="I'm Genesis Marcus Aquino, currently in 10th Grade. This website is based off Persona 3 Reload!"
                                 >
                                     Full Scan
@@ -441,14 +441,14 @@
                             </div>
 
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/electric_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="Been doing web development since the middle of 8th Grade. Pretty fun!"
                                 >
                                     Web Development
@@ -456,14 +456,14 @@
                             </div>
 
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/electric_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="Pursued game dev since I was 9. Nowadays, I don't do it much anymore."
                                 >
                                     Game Development
@@ -471,14 +471,14 @@
                             </div>
 
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/light_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="Started debloating my PC one day. Enjoyed taking back all my old freedom from Windows."
                                 >
                                     Cybersecurity
@@ -486,14 +486,14 @@
                             </div>
 
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/darkness_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="Was messing around with my school platform one day then found some vulnerabilities within it."
                                 >
                                     Hacking
@@ -501,14 +501,14 @@
                             </div>
 
                             <div
-                                class="w-full flex flex-row py-3 pl-1 rounded cursor-pointer block h-auto"
+                                class="w-full flex flex-row py-2 md:py-3 pl-1 rounded cursor-pointer pointer-events-auto block h-auto"
                             >
                                 <img
                                     src="images/skills/almighty_skill.png"
-                                    class="w-1/6 h-auto inline-block object-contain"
+                                    class="w-1/6 h-auto inline-block object-contain pointer-events-none"
                                 />
                                 <span
-                                    class="pl-1"
+                                    class="pl-1 pointer-events-none"
                                     data-desc="Deals ultimate Almighty damage to all enemies in exchange for your HP and SP reducing to one."
                                 >
                                     Armageddon
@@ -516,17 +516,18 @@
                             </div>
                         </div>
 
+                        <!-- Skill Info Box -->
                         <div
-                            class="w-full z-5 h-auto flex flex-row justify-start items-start pl-[20%] pt-50 md:pt-60 lg:pt-70 xl:pt-[50%] gap-5 text-sm lg:text-md xl:text-xl text-[#00d8ff] invisible md:visible"
+                            class="w-full z-5 h-auto flex flex-row justify-start items-start px-0 lg:px-[12cqi] mt-10 md:mt-20 gap-4 text-sm lg:text-md xl:text-xl text-[#00d8ff] invisible md:visible"
                             id="skillsInfo"
                         >
                             <span
                                 style="font-family: &quot;Fontworks Rodin&quot;"
-                                class="font-semibold text-xs md:text-sm xl:text-base rounded-full border-[#00d8ff] border-4 px-6 leading-none"
+                                class="font-semibold text-xs md:text-sm xl:text-base rounded-full border-[#00d8ff] border-4 px-6 leading-none shrink-0"
                                 >Info</span
                             >
 
-                            <p id="skillDescription" class="leading-none w-3/5">
+                            <p id="skillDescription" class="leading-tight w-4/5">
                                 OOH YEAH! DADADA DA DA DADA DA DAW BABY BABY...
                             </p>
                         </div>
@@ -1104,7 +1105,7 @@
 
                 if (f"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}") in persona_users:
                     club_output(f"I feel like I've forged a powerful bond...")
-                    play("socialLinkNoteSFX")
+                    playSound("socialLinkNoteSFX")
                 else:
                     club_output(f"\"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}\"... I don't think I spelled that correctly...")
         </script>
