@@ -513,12 +513,12 @@
                 <!-- CLUB LIST CHECKER -->
                 <div
                     id="clubMenu"
-                    class="hidden z-4 flex flex-col justify-center items-center fixed text-left text-black text-[1cqi] italic w-full h-full not-italic"
+                    class="hidden z-4 flex flex-col bg-[url('images/contract-bg.png')] bg-cover bg-center bg-no-repeat justify-center items-center fixed text-left text-black text-[2.4cqh] italic w-full h-full not-italic"
                     style="font-family: Skip STD B"
                 >
-                    <div class="flex flex-col bg-[url('/images/contract-bg.png')] bg-contain bg-center bg-no-repeat py-[1cqi] px-[1.5cqi] justify-evenly items-center w-[33cqi] h-[50cqi]">
+                    <div class="flex flex-col bg-[url('images/contract.png')] drop-shadow-2xl bg-contain bg-center bg-no-repeat py-[2cqh] px-[3cqh] justify-evenly items-center w-[66cqh] h-[100cqh]">
                         
-                        <h1 class="text-[3cqi]">Contract</h1>
+                        <h1 class="text-[6cqh]">Contract</h1>
 
                         <p>
                             Time never waits.<br>
@@ -527,40 +527,46 @@
                             And I chooseth this fate of mine own free will.
                         </p>
 
-                        <div class="flex flex-row gap-4 w-full px-[0.05cqi] text-[1cqi]">
-                            <label class="w-1/3">Signature block</label>
+                        <div class="flex flex-row gap-4 w-full px-[0.1cqh] text-[2cqh]">
+                            <label class="w-1/3 text-[2.25cqh]">Signature block</label>
 
-                            <input 
-                                type="text" 
-                                id="clubFName" 
-                                placeholder="Makoto" 
-                                class="w-1/3 italic text-center"
-                            >
+                            <div class="w-2/3 flex flex-row pb-2 border-b-2 border-black">
+                                <input 
+                                    type="text" 
+                                    id="clubFName" 
+                                    placeholder="Makoto" 
+                                    class="w-1/2 italic text-center"
+                                >
 
-                            <input 
-                                type="text" 
-                                id="clubLName" 
-                                placeholder="Yuki" 
-                                class="w-1/3 italic text-center"
-                            >
+                                <input 
+                                    type="text" 
+                                    id="clubLName" 
+                                    placeholder="Yuki" 
+                                    class="w-1/2 italic text-center"
+                                >
+                            </div>
                         </div>
 
                         <button
-                            class="w-1/3 pointer-click"
+                            class="w-1/3 pointer-click italic"
                             py-click="club_check"
                         >Submit
                         </button>
                     </div>
 
-                    <div class="absolute inset-0 flex flex-col justify-end sm:items-center pointer-events-none invisible" id="clubOutputContainer"> 
-                        <div class="absolute bottom-0 w-full sm:bottom-6 sm:w-11/12 md:w-3/4 lg:w-1/2 max-h-[85vh] bg-white rounded-t-xl sm:rounded-xl p-4 shadow-xl z-5 pointer-events-auto flex flex-col"> 
-                            
-                            <span class="text-start w-full flex-1 overflow-y-auto pb-4" id="clubOutput"></span> 
-                            
-                            <div class="text-center flex flex-col items-center justify-end pt-2 border-t border-gray-100"> 
-                                <button class="pointer-click w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg font-medium" py-click="club_close">Close</button> 
-                            </div> 
+                    <div class="invisible absolute bottom-0 flex flex-col w-full sm:bottom-6 sm:w-11/12 md:w-3/4 lg:w-1/2 max-h-[85vh] bg-[url('images/dialogue-box.png')] shadow bg-contain bg-center bg-no-repeat p-8 aspect-[1024/238] z-5 pointer-events-auto" id="clubOutputContainer"> 
+                        
+                        <span class="text-start text-white w-full flex-1 overflow-y-auto pb-4 pt-10 px-10 indent-25" id="clubOutput"></span> 
+                        
+                        <div class="text-center flex flex-col items-end justify-end pt-2"> 
+                            <button class="pointer-click w-full sm:w-auto px-6" py-click="club_close">
+                                    <!-- arrowhead -->
+                                    <div class="w-16 h-12 bg-blue-800 flex items-center justify-center [clip-path:polygon(0%_0%,_100%_0%,_50%_40%)]">
+                                        <div class="w-16 h-12 bg-white [clip-path:polygon(0%_0%,_40%_50%,_100%_0%,_85%_0%,_50%_30%,_15%_0%)]"></div>
+                                    </div>
+                            </button> 
                         </div> 
+
                     </div>
                 </div>
 
@@ -999,7 +1005,7 @@
                     "Reiji Kido",
                     "Yuka Ayase",
 
-                    # Persona 2 (Innocent Sin / Eternal Punishment)
+                    # Persona 2
                     "Tatsuya Suou",
                     "Lisa Silverman",
                     "Eikichi Mishina",
@@ -1051,6 +1057,7 @@
                     "Sumire Yoshizawa",
                     "Morgana Morgana",
                     "Morgana Cat",
+                    "Morgana Chud",
                     "Zenkichi Hasegawa",
                     "Sophia Sophia",
                     "Erina Erina"
@@ -1060,17 +1067,17 @@
                 l_name = document.getElementById("clubLName").value
 
                 if not f_name:
-                    club_output("What was my first name again?")
+                    club_output("Did I spell my first name right?")
                     return
 
                 if not l_name:
-                    club_output("What was my last name again?")
+                    club_output("Did I spell my last name right?")
                     return
 
-                if (f"{str(f_name).capitalize()} {str(l_name).capitalize()}") in persona_users:
+                if (f"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}") in persona_users:
                     club_output(f"I found my name on the registry!")
                 else:
-                    club_output(f"I don't see my name on the registry...")
+                    club_output(f"\"{str(f_name).replace(" ", "").capitalize()} {str(l_name).replace(" ", "").capitalize()}\"... I don't think I spelled that correctly...")
         </script>
     </body>
 </html>
