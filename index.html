@@ -532,11 +532,17 @@
                         </button>
                     </div>
 
-                    <div class="absolute w-full h-full flex flex-col justify-end items-center pointer-events-none invisible">
-                        <div class="absolute w-9/10 bg-black h-1/2 bottom-10 z-5 pointer-events-auto" id="clubOutput"></div>
-
-                        <button py-click="club_close">Close</button>
+                    <div class="absolute inset-0 flex flex-col justify-end sm:items-center pointer-events-none invisible" id="clubOutputContainer"> 
+                        <div class="absolute bottom-0 w-full sm:bottom-6 sm:w-11/12 md:w-3/4 lg:w-1/2 max-h-[85vh] bg-white rounded-t-xl sm:rounded-xl p-4 shadow-xl z-5 pointer-events-auto flex flex-col"> 
+                            
+                            <span class="text-start w-full flex-1 overflow-y-auto pb-4" id="clubOutput"></span> 
+                            
+                            <div class="text-center flex flex-col items-center justify-end pt-2 border-t border-gray-100"> 
+                                <button class="pointer-click w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg font-medium" py-click="club_close">Close</button> 
+                            </div> 
+                        </div> 
                     </div>
+
                 </div>
             </div>
 
@@ -946,23 +952,17 @@
             loading_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", loading_proxy)
 
-            def club_output(text, is_error=False):
+            def club_output(text):
+                container = document.getElementById("clubOutputContainer")
                 output = document.getElementById("clubOutput")
 
-                if is_error:
-                    output.classList.add("bg-red-800")
-                    output.classList.remove("bg-green-800")
-                else:
-                    output.classList.add("bg-green-800")
-                    output.classList.remove("bg-red-800")
-
-                output.classList.parentElement.remove("invisible")
-                output.innerHTML = str(text)
+                container.classList.remove("invisible")
+                output.textContent = str(text)
             
-            def club_close():
-                output = document.getElementById("clubOutput")
+            def club_close(event):
+                container = document.getElementById("clubOutputContainer")
 
-                output.parentElement.classList.add("invisible")
+                container.classList.add("invisible")
 
             # === MAIN FUNCTIONS ===
             def club_check(event):
@@ -972,9 +972,14 @@
                     "Akihiko Sanada",
                     "Ken Amada",
 
+                    "Aigis",
+                    "Aigis Clanker",
+                    "Aigis Robot",
+                    "Aigis Goat",
+                    "Anti-Shadow Weapon",
+
                     "Fuuka Yamagishi",
                     "Mitsuru Kirijo",
-                    "Fuuka Yamagishi",
                     "Yukari Takeba"
                 ]
 
@@ -982,14 +987,14 @@
                 l_name = document.getElementById("clubLName").value
 
                 if not f_name:
-                    club_output("What was my first name again?", True)
+                    club_output("What was my first name again?")
                     return
 
                 if not l_name:
-                    club_output("What was my last name again?", True)
+                    club_output("What was my last name again?")
                     return
 
-                if (f"{str(f_name).capitalize} {str(l_name).capitalize}") in club_members:
+                if (f"{str(f_name).capitalize()} {str(l_name).capitalize()}") in club_members:
                     club_output(f"I found my name on the registry!")
                 else:
                     club_output(f"I don't see my name on the registry...")
