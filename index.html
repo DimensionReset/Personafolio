@@ -493,7 +493,7 @@
                         </div>
 
                         <div
-                            class="w-full z-5 h-auto flex flex-row justify-start items-start pl-[20%] pt-50 md:pt-60 lg:pt-70 xl:pt-[50%] gap-5 text-xs md:text-sm xl:text-xl text-[#00d8ff] invisible md:visible"
+                            class="w-full z-5 h-auto flex flex-row justify-start items-start pl-[20%] pt-50 md:pt-60 lg:pt-70 xl:pt-[50%] gap-5 text-sm lg:text-md xl:text-xl text-[#00d8ff] invisible md:visible"
                             id="skillsInfo"
                         >
                             <span
@@ -506,6 +506,36 @@
                                 OOH YEAH! DADADA DA DA DADA DA DAW BABY BABY...
                             </p>
                         </div>
+                    </div>
+                </div>
+
+                <div
+                    id="clubMenu"
+                    class="hidden z-4 flex flex-col justify-center items-center fixed text-left text-black text-3xl italic w-full h-full not-italic"
+                    style="font-family: Skip STD B"
+                >
+                    <div class="flex flex-col bg-white justify-between items-center w-1/3 h-5/6">
+                        <div>
+                            <label for="clubFName">First Name</label>
+                            <input type="text" id="clubFName" placeholder="Makoto">
+                        </div>
+
+                        <div>
+                            <label for="clubLName">Last Name</label>
+                            <input type="text" id="clubLName" placeholder="Yuki">
+                        </div>
+
+                        <button
+                            class="w-1/3 pointer-click"
+                            py-click="club_check"
+                        >Submit
+                        </button>
+                    </div>
+
+                    <div class="absolute w-full h-full flex flex-col justify-end items-center pointer-events-none invisible">
+                        <div class="absolute w-9/10 bg-black h-1/2 bottom-10 z-5 pointer-events-auto" id="clubOutput"></div>
+
+                        <button py-click="club_close">Close</button>
                     </div>
                 </div>
             </div>
@@ -620,13 +650,13 @@
                     options_menu.classList.add("animate-circle-wipe")
                     svg_container.classList.remove("hidden")
 
-            # Event logic for when Backspace key is pressed
+            # Event logic for when C key is pressed
             escape_press_proxy = None # for event cleaning
 
             def exit_scene(event):
                 global escape_press_proxy
 
-                if event.code == "Backspace" or event.code == "KeyC":
+                if event.code == "Escape":
                     playSound("hideSFX")
                     load_options()
                     if escape_press_proxy:
@@ -915,6 +945,54 @@
             # keypress in loading
             loading_proxy = create_proxy(handle_loading_exit)
             window.addEventListener("keydown", loading_proxy)
+
+            def club_output(text, is_error=False):
+                output = document.getElementById("clubOutput")
+
+                if is_error:
+                    output.classList.add("bg-red-800")
+                    output.classList.remove("bg-green-800")
+                else:
+                    output.classList.add("bg-green-800")
+                    output.classList.remove("bg-red-800")
+
+                output.classList.parentElement.remove("invisible")
+                output.innerHTML = str(text)
+            
+            def club_close():
+                output = document.getElementById("clubOutput")
+
+                output.parentElement.classList.add("invisible")
+
+            # === MAIN FUNCTIONS ===
+            def club_check(event):
+                club_members = [
+                    "Makoto Yuki",
+                    "Junpei Iori",
+                    "Akihiko Sanada",
+                    "Ken Amada",
+
+                    "Fuuka Yamagishi",
+                    "Mitsuru Kirijo",
+                    "Fuuka Yamagishi",
+                    "Yukari Takeba"
+                ]
+
+                f_name = document.getElementById("clubFName").value
+                l_name = document.getElementById("clubLName").value
+
+                if not f_name:
+                    club_output("What was my first name again?", True)
+                    return
+
+                if not l_name:
+                    club_output("What was my last name again?", True)
+                    return
+
+                if (f"{str(f_name).capitalize} {str(l_name).capitalize}") in club_members:
+                    club_output(f"I found my name on the registry!")
+                else:
+                    club_output(f"I don't see my name on the registry...")
         </script>
     </body>
 </html>
