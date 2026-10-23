@@ -4,7 +4,7 @@
 ## Wazzup
 If you saw this on social media, consider subscribing to my channel!
 
-Here is the link: https://aquino-genesis.github.io/LasPinas_ICT10_Q2Project_Aquino_Genesis/  
+Here is the link: [https://aquino-genesis.github.io/LasPinas_ICT10_Q2Project_Aquino_Genesis/  ](https://dimensionreset.github.io/Personafolio/)
 
 ## Additional Information
 ### **License Details**  
