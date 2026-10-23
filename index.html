@@ -314,6 +314,7 @@
 
             <!--[=== ALL PAGE SCREENS ===]-->
             <div id="sceneContainer" class="fixed w-full h-full">
+
                 <!-- MEET THE CREATOR -->
                 <!--
                     hey me pls add back "hidden" class
@@ -353,7 +354,7 @@
                                 class="bg-black shrink-0 h-full flex items-center overflow-hidden z-10 [clip-path:polygon(0_0,_100%_0,_94%_100%,_0_100%)]"
                             >
                                 <img
-                                    src="images/aura_guy.png"
+                                    src="images/aura-guy.png"
                                     class="w-auto h-full object-contain"
                                 />
                             </div>
@@ -509,20 +510,39 @@
                     </div>
                 </div>
 
+                <!-- CLUB LIST CHECKER -->
                 <div
                     id="clubMenu"
-                    class="hidden z-4 flex flex-col justify-center items-center fixed text-left text-black text-3xl italic w-full h-full not-italic"
+                    class="hidden z-4 flex flex-col justify-center items-center fixed text-left text-black text-[1cqi] italic w-full h-full not-italic"
                     style="font-family: Skip STD B"
                 >
-                    <div class="flex flex-col bg-white justify-between items-center w-1/3 h-5/6">
-                        <div>
-                            <label for="clubFName">First Name</label>
-                            <input type="text" id="clubFName" placeholder="Makoto">
-                        </div>
+                    <div class="flex flex-col bg-[url('/images/contract-bg.png')] bg-contain bg-center bg-no-repeat py-[1cqi] px-[1.5cqi] justify-evenly items-center w-[33cqi] h-[50cqi]">
+                        
+                        <h1 class="text-[3cqi]">Contract</h1>
 
-                        <div>
-                            <label for="clubLName">Last Name</label>
-                            <input type="text" id="clubLName" placeholder="Yuki">
+                        <p>
+                            Time never waits.<br>
+                            It delivers all equally to the same end.<br>
+                            I hereby agree to the statement above,<br>
+                            And I chooseth this fate of mine own free will.
+                        </p>
+
+                        <div class="flex flex-row gap-4 w-full px-[0.05cqi] text-[1cqi]">
+                            <label class="w-1/3">Signature block</label>
+
+                            <input 
+                                type="text" 
+                                id="clubFName" 
+                                placeholder="Makoto" 
+                                class="w-1/3 italic text-center"
+                            >
+
+                            <input 
+                                type="text" 
+                                id="clubLName" 
+                                placeholder="Yuki" 
+                                class="w-1/3 italic text-center"
+                            >
                         </div>
 
                         <button
@@ -542,8 +562,8 @@
                             </div> 
                         </div> 
                     </div>
-
                 </div>
+
             </div>
 
             <!--[=== MAIN MENU SCREEN ===]-->
@@ -966,21 +986,74 @@
 
             # === MAIN FUNCTIONS ===
             def club_check(event):
-                club_members = [
+                persona_users = [
+                    # Persona 1
+                    "Boy With",
+                    "Naoya Toudou",
+                    "Maki Sonomura",
+                    "Masao Inaba",
+                    "Kei Nanjo",
+                    "Yukino Mayuzumi",
+                    "Hidehiko Uesugi",
+                    "Eriko Kirishima",
+                    "Reiji Kido",
+                    "Yuka Ayase",
+
+                    # Persona 2 (Innocent Sin / Eternal Punishment)
+                    "Tatsuya Suou",
+                    "Lisa Silverman",
+                    "Eikichi Mishina",
+                    "Jun Kurosu",
+                    "Maya Amano",
+                    "Katsuya Suou",
+                    "Baofu Baofu",
+                    "Ulala Serizawa",
+                    "Tatsuya Sudou",
+                    "Anna Yoshizaka",
+
+                    # Persona 3
                     "Makoto Yuki",
+                    "Yukari Takeba",
                     "Junpei Iori",
-                    "Akihiko Sanada",
-                    "Ken Amada",
-
-                    "Aigis",
-                    "Aigis Clanker",
-                    "Aigis Robot",
-                    "Aigis Goat",
-                    "Anti-Shadow Weapon",
-
-                    "Fuuka Yamagishi",
                     "Mitsuru Kirijo",
-                    "Yukari Takeba"
+                    "Akihiko Sanada",
+                    "Fuuka Yamagishi",
+                    "Aigis Aigis",
+                    "Anti-Shadow Weapon",
+                    "Ken Amada",
+                    "Shinjiro Aragaki",
+                    "Koromaru Dog",
+                    "Metis Metis",
+                    "Ryoji Mochizuki",
+
+                    # Persona 4
+                    "Yu Narukami",
+                    "Yosuke Hanamura",
+                    "Chie Satonaka",
+                    "Yukiko Amagi",
+                    "Kanji Tatsumi",
+                    "Rise Kujikawa",
+                    "Naoto Shirogane",
+                    "Teddie Teddie",
+                    "Teddie Bear",
+                    "Tohru Adachi",
+                    "Marie Marie",
+
+                    # Persona 5
+                    "Ren Amamiya",
+                    "Ryuji Sakamoto",
+                    "Ann Takamaki",
+                    "Yusuke Kitagawa",
+                    "Makoto Niijima",
+                    "Futaba Sakura",
+                    "Haru Okumura",
+                    "Goro Akechi",
+                    "Sumire Yoshizawa",
+                    "Morgana Morgana",
+                    "Morgana Cat",
+                    "Zenkichi Hasegawa",
+                    "Sophia Sophia",
+                    "Erina Erina"
                 ]
 
                 f_name = document.getElementById("clubFName").value
@@ -994,7 +1067,7 @@
                     club_output("What was my last name again?")
                     return
 
-                if (f"{str(f_name).capitalize()} {str(l_name).capitalize()}") in club_members:
+                if (f"{str(f_name).capitalize()} {str(l_name).capitalize()}") in persona_users:
                     club_output(f"I found my name on the registry!")
                 else:
                     club_output(f"I don't see my name on the registry...")
